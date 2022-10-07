@@ -140,3 +140,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+    # python -B -m paddle.distributed.launch --gpus="0,1"  --log_dir=log_pptsm  main.py  --validate -c configs/recognition/pptsm/v2/pptsm_lcnet_my_16frames_uniform.yaml
