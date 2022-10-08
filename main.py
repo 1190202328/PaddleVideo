@@ -79,7 +79,7 @@ def parse_args():
         type=str,
         default=None,
         help='The option of profiler, which should be in format '
-        '\"key1=value1;key2=value2;key3=value3\".')
+             '\"key1=value1;key2=value2;key3=value3\".')
 
     args = parser.parse_args()
     return args
@@ -140,4 +140,5 @@ def main():
 
 if __name__ == '__main__':
     main()
-    # python -B -m paddle.distributed.launch --gpus="0,1"  --log_dir=log_pptsm  main.py  --validate -c configs/recognition/pptsm/v2/pptsm_lcnet_my_16frames_uniform.yaml
+    # python -B -m paddle.distributed.launch --gpus="0,1,2"  --log_dir=log_pptsm  main.py  --validate -c configs/recognition/pptsm/v2/pptsm_lcnet_my_8frames_uniform.yaml
+    # python  main.py  --validate -c configs/recognition/pptsm/v2/pptsm_lcnet_my_16frames_uniform.yaml

@@ -34,6 +34,9 @@ def video_clip(source_dir='/home/jjiang/data/train_test_video', output_dir='/hom
             path = paths[i]
             if path.endswith('.mp4'):
                 continue
+            if path.endswith("'"):
+                print(path)
+                raise Exception
             path, suffix = os.path.splitext(path)
 
             source_video_path = f'{directory}/{path}.mp4'
@@ -74,6 +77,8 @@ def video_clip(source_dir='/home/jjiang/data/train_test_video', output_dir='/hom
                     print(f'KeyError {new_label}')
                 if new_label in total_class_human_changed and duration > 0:
                     output_video_name = f'{new_label}/{file_name}_{segment_idx}.mp4'
+                    output_video_name_without_blank = ''.join(output_video_name.split(' '))
+                    output_video_name = output_video_name_without_blank
                     copy_path = f'{output_dir}/videos/{output_video_name}'
 
                     if not os.path.exists(f'{output_dir}/videos/{new_label}'):
@@ -100,8 +105,9 @@ def remove_bad_video(output_dir='/home/jjiang/data/zoo_clip'):
         new_txt = ''
         with open(f'{output_dir}/{train_or_test}', mode='r', encoding='utf-8') as f:
             for line in tqdm(f.readlines()):
-                file_name = ' '.join(line.strip().split(' ')[:-1])
+                file_name = line.strip().split(' ')[0]
                 if not _test_video(f'{video_dir}/{file_name}'):
+                    print(f'{video_dir}/{file_name} 视频损坏')
                     try:
                         os.remove(f'{video_dir}/{file_name}')
                     except FileNotFoundError:
@@ -112,6 +118,23 @@ def remove_bad_video(output_dir='/home/jjiang/data/zoo_clip'):
             f.write(new_txt)
 
 
+def check_result(output_dir='/home/jjiang/data/zoo_clip'):
+    video_dir = f'{output_dir}/videos'
+    for train_or_test in ['train.list', 'val.list']:
+        label_set = set()
+        with open(f'{output_dir}/{train_or_test}', mode='r', encoding='utf-8') as f:
+            for line in tqdm(f.readlines()):
+                file_name = line.strip().split(' ')[0]
+                label = line.strip().split(' ')[1]
+                label_set.add(label)
+                if not os.path.exists(f'{video_dir}/{file_name}'):
+                    print(f'文件{video_dir}/{file_name} 不存在！')
+        label_set = sorted(list(label_set))
+        print(len(label_set))
+        print(label_set)
+
+
 if __name__ == '__main__':
     # video_clip()
-    remove_bad_video()
+    # remove_bad_video()
+    check_result()
