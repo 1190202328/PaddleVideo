@@ -44,7 +44,7 @@ def parse_args():
     parser.add_argument('--level', type=int,
                         choices=[1, 2],
                         default=2)
-    parser.add_argument('--num_worker', type=int, default=8)
+    parser.add_argument('--num_worker', type=int, default=16)
     parser.add_argument("--out_format", type=str, default='dir',
                         choices=['dir', 'zip'], help='output format')
     parser.add_argument("--ext", type=str, default='avi',
