@@ -73,6 +73,7 @@ class VideoDecoder(object):
         results['backend'] = self.backend
 
         if self.backend == 'cv2':
+            print(file_path)
             cap = cv2.VideoCapture(file_path)
             videolen = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
             sampledFrames = []
